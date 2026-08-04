@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Burger Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; background-color: #121216; font-family: 'Montserrat', sans-serif; color: #ffffff; }
+    .app-container { width: 100vw; height: 100vh; max-width: 480px; margin: 0 auto; background: #1a1a24; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .quiz-header { text-align: center; padding: 4px 0; }
+    .burger-logo { display: inline-flex; flex-direction: column; line-height: 0.85; text-transform: uppercase; }
+    .word-burger { font-size: 2rem; font-weight: 900; color: #ffbe0b; text-shadow: 2px 2px 0px #c77d00, -1px -1px 0 #000, 1px -1px 0 #000; letter-spacing: 2px; }
+    .word-quiz { font-size: 2.4rem; font-weight: 900; color: #ff0055; text-shadow: 2px 2px 0px #9e0034, -1px -1px 0 #000, 1px -1px 0 #000; letter-spacing: 4px; }
+    .game-section { display: flex; flex-direction: column; gap: 12px; flex: 1; min-height: 0; }
+    .status-bar { display: flex; justify-content: space-between; gap: 10px; }
+    .badge { flex: 1; background: #252536; border: 1px solid #3b3b54; border-radius: 12px; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; }
+    .badge-label { font-size: 0.7rem; font-weight: 700; color: #8e8ea8; }
+    .badge-value { font-size: 1.1rem; font-weight: 900; color: #ffbe0b; }
+    .question-progress { width: 100%; height: 6px; background: #252536; border-radius: 10px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 5%; background: linear-gradient(90deg, #ffbe0b, #ff0055); transition: width 0.3s ease; }
+    .quiz-card { flex: 1; background: #20202d; border: 1px solid #2e2e42; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; min-height: 0; }
+    .theme-tag { background: #00f5d4; color: #0d1b2a; font-size: 0.75rem; font-weight: 900; padding: 4px 14px; border-radius: 20px; text-transform: uppercase; }
+    .question-text { font-size: 1.05rem; font-weight: 700; text-align: center; margin: 10px 0; line-height: 1.35; color: #ffffff; }
+    .options-grid { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+    .btn-option { width: 100%; padding: 12px; background: #2a2a3d; border: 1.5px solid #3d3d5c; border-radius: 12px; color: #ffffff; font-family: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: background-color 0.2s ease; }
+    .btn-option.correct { background-color: #2b9348 !important; border-color: #55a630 !important; color: #ffffff !important; }
+    .btn-option.wrong { background-color: #d90429 !important; border-color: #ef233c !important; color: #ffffff !important; }
+    .btn-next { width: 100%; padding: 14px; background: #ffbe0b; border: none; border-radius: 12px; color: #000000; font-family: inherit; font-size: 0.95rem; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+    .btn-next:disabled { opacity: 0.35; cursor: not-allowed; }
+    .end-screen { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 24px; text-align: center; }
+    .final-score { font-size: 1.5rem; font-weight: 900; color: #ffffff; line-height: 1.4; }
+    .btn-restart { width: 100%; padding: 18px; background: #ff0055; border: none; border-radius: 14px; color: #ffffff; font-family: inherit; font-size: 1.1rem; font-weight: 900; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 0, 85, 0.4); }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header class="quiz-header">
+      <h1 class="burger-logo">
+        <span class="word-burger">BURGER</span>
+        <span class="word-quiz">QUIZ</span>
+      </h1>
+    </header>
+
+    <div id="game-section" class="game-section">
+      <div class="status-bar">
+        <div class="badge">
+          <span class="badge-label">QUESTION</span>
+          <span class="badge-value"><span id="current-q">1</span><small>/20</small></span>
+        </div>
+        <div class="badge">
+          <span class="badge-label">MIAM</span>
+          <span class="badge-value"><span id="score">0</span> 🍔</span>
+        </div>
+      </div>
+
+      <div class="question-progress">
+        <div id="progress-bar" class="progress-fill"></div>
+      </div>
+
+      <main class="quiz-card">
+        <span id="theme" class="theme-tag">GÉOGRAPHIE</span>
+        <h2 id="question-text" class="question-text">Chargement...</h2>
+        <div id="options-container" class="options-grid"></div>
+      </main>
+
+      <button id="next-btn" class="btn-next" disabled>Question suivante</button>
+    </div>
+
+    <div id="end-screen" class="end-screen" style="display: none;">
+      <h2 id="final-score-text" class="final-score">Score : 0 / 20 🍔</h2>
+      <button id="restart-btn" class="btn-restart">🔄 Rejouer une partie</button>
+    </div>
+  </div>
+
+  <script>
+    const questionBank = [
+      { theme: "GÉOGRAPHIE", question: "Vers quelle commune de Loire-Atlantique la Loire se jette-t-elle dans l'océan ?", options: ["Paimbœuf", "Saint-Nazaire", "Pornic", "Nantes"], answer: "Saint-Nazaire" },
+      { theme: "CINÉMA", question: "Quel acteur joue le rôle de Spider-Man dans la trilogie originale de Sam Raimi ?", options: ["Andrew Garfield", "Tom Holland", "Tobey Maguire", "Jake Gyllenhaal"], answer: "Tobey Maguire" },
+      { theme: "GASTRONOMIE", question: "Quel est l'ingrédient principal du guacamole ?", options: ["La tomate", "L'avocat", "Le concombre", "Le poivron"], answer: "L'avocat" },
+      { theme: "HISTOIRE", question: "En quelle année a eu lieu la Révolution française ?", options: ["1789", "1799", "1815", "1776"], answer: "1789" },
+      { theme: "MUSIQUE", question: "Quel groupe est connu pour l'album 'The Dark Side of the Moon' ?", options: ["The Beatles", "Queen", "Pink Floyd", "Led Zeppelin"], answer: "Pink Floyd" },
+      { theme: "SCIENCE", question: "Quel est le symbole chimique de l'or ?", options: ["Ag", "Au", "Fe", "Cu"], answer: "Au" },
+      { theme: "ANIMAUX", question: "Quel est le plus grand mammifère du monde ?", options: ["L'éléphant d'Afrique", "La baleine bleue", "Le rorqual commun", "Le grand requin blanc"], answer: "La baleine bleue" },
+      { theme: "GÉOGRAPHIE", question: "Quelle est la capitale du Japon ?", options: ["Kyoto", "Osaka", "Tokyo", "Hiroshima"], answer: "Tokyo" },
+      { theme: "SPORT", question: "Combien de joueurs composent une équipe de football sur le terrain ?", options: ["9", "10", "11", "12"], answer: "11" },
+      { theme: "LITTÉRATURE", question: "Qui a écrit 'Les Misérables' ?", options: ["Émile Zola", "Victor Hugo", "Gustave Flaubert", "Albert Camus"], answer: "Victor Hugo" },
+      { theme: "CINÉMA", question: "Combien d'Oscars le film 'Titanic' a-t-il remportés ?", options: ["8", "10", "11", "14"], answer: "11" },
+      { theme: "GASTRONOMIE", question: "De quel pays le fromage 'Feta' est-il originaire ?", options: ["Italie", "Grèce", "Espagne", "Turquie"], answer: "Grèce" },
+      { theme: "SCIENCE", question: "Quelle planète est la plus proche du Soleil ?", options: ["Vénus", "Mars", "Mercure", "Terre"], answer: "Mercure" },
+      { theme: "HISTOIRE", question: "Qui était le premier président des États-Unis ?", options: ["Abraham Lincoln", "Thomas Jefferson", "George Washington", "Benjamin Franklin"], answer: "George Washington" },
+      { theme: "INVENTIONS", question: "Qui est l'inventeur de l'ampoule électrique pratique ?", options: ["Nikola Tesla", "Thomas Edison", "Alexander Graham Bell", "Albert Einstein"], answer: "Thomas Edison" },
+      { theme: "JEUX VIDÉO", question: "Quel est le jeu vidéo le plus vendu de tous les temps ?", options: ["Tetris", "Minecraft", "GTA V", "Super Mario Bros."], answer: "Minecraft" },
+      { theme: "SÉRIES", question: "Dans 'Breaking Bad', quelle est la profession initiale de Walter White ?", options: ["Avocat", "Professeur de chimie", "Médecin", "Policier"], answer: "Professeur de chimie" },
+      { theme: "MYTHOLOGIE", question: "Dans la mythologie grecque, qui est le dieu du ciel et du tonnerre ?", options: ["Poséidon", "Hadès", "Zeus", "Ares"], answer: "Zeus" },
+      { theme: "GÉOGRAPHIE", question: "Quel fleuve traverse la ville de Londres ?", options: ["La Seine", "Le Rhin", "La Tamise", "Le Danube"], answer: "La Tamise" },
+      { theme: "CORPS HUMAIN", question: "Combien d'os compte le corps humain adulte ?", options: ["186", "206", "226", "246"], answer: "206" }
+    ];
+
+    let selectedQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    const TOTAL_QUESTIONS = 20;
+
+    function getRandomShuffled(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function loadQuestion() {
+      const gameSection = document.getElementById('game-section');
+      const endScreen = document.getElementById('end-screen');
+      const themeEl = document.getElementById('theme');
+      const questionTextEl = document.getElementById('question-text');
+      const currentQEl = document.getElementById('current-q');
+      const progressBarEl = document.getElementById('progress-bar');
+      const optionsContainerEl = document.getElementById('options-container');
+      const nextBtn = document.getElementById('next-btn');
+
+      gameSection.style.display = 'flex';
+      endScreen.style.display = 'none';
+
+      const q = selectedQuestions[currentQuestionIndex];
+      
+      themeEl.textContent = q.theme;
+      questionTextEl.textContent = q.question;
+      currentQEl.textContent = currentQuestionIndex + 1;
+      progressBarEl.style.width = `${((currentQuestionIndex + 1) / selectedQuestions.length) * 100}%`;
+      
+      optionsContainerEl.innerHTML = '';
+      nextBtn.disabled = true;
+      nextBtn.textContent = (currentQuestionIndex === selectedQuestions.length - 1) ? "Terminer la partie" : "Question suivante";
+
+      const randomizedOptions = getRandomShuffled(q.options);
+
+      randomizedOptions.forEach(optionText => {
+        const btn = document.createElement('button');
+        btn.classList.add('btn-option');
+        btn.textContent = optionText;
+        btn.onclick = () => handleAnswer(btn, optionText, q.answer);
+        optionsContainerEl.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(selectedBtn, chosenText, correctText) {
+      const optionsContainerEl = document.getElementById('options-container');
+      const scoreEl = document.getElementById('score');
+      const nextBtn = document.getElementById('next-btn');
+      const allButtons = optionsContainerEl.querySelectorAll('.btn-option');
+      
+      allButtons.forEach(btn => btn.disabled = true);
+
+      if (chosenText === correctText) {
+        selectedBtn.classList.add('correct');
+        score++;
+        scoreEl.textContent = score;
+      } else {
+        selectedBtn.classList.add('wrong');
+        allButtons.forEach(btn => {
+          if (btn.textContent === correctText) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+
+      nextBtn.disabled = false;
+    }
+
+    function showEndScreen() {
+      const gameSection = document.getElementById('game-section');
+      const endScreen = document.getElementById('end-screen');
+      const finalScoreText = document.getElementById('final-score-text');
+
+      gameSection.style.display = 'none';
+      endScreen.style.display = 'flex';
+      finalScoreText.innerHTML = `Partie terminée !<br><br>Ton score : <strong>${score} / ${selectedQuestions.length}</strong> 🍔`;
+    }
+
+    function initGame() {
+      score = 0;
+      currentQuestionIndex = 0;
+
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) scoreEl.textContent = score;
+      
+      const shuffledBank = getRandomShuffled(questionBank);
+      selectedQuestions = shuffledBank.slice(0, Math.min(TOTAL_QUESTIONS, shuffledBank.length));
+      
+      loadQuestion();
+    }
+
+    document.getElementById('next-btn').onclick = () => {
+      const nextBtn = document.getElementById('next-btn');
+      if (nextBtn.disabled) return;
+      currentQuestionIndex++;
+      if (currentQuestionIndex < selectedQuestions.length) {
+        loadQuestion();
+      } else {
+        showEndScreen();
+      }
+    };
+
+    document.getElementById('restart-btn').onclick = () => initGame();
+
+    initGame();
+  </script>
+</body>
+</html>
