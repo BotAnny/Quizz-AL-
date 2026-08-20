@@ -1,1 +1,142 @@
-
+[
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Géographie",
+    "question": "Vers quelle commune de Loire-Atlantique la Loire se jette-t-elle dans l'océan ?",
+    "options": ["Paimbœuf", "Saint-Nazaire", "Pornic", "Nantes"],
+    "answer": "Saint-Nazaire"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Cinéma",
+    "question": "Quel acteur joue le rôle de Spider-Man dans la trilogie originale de Sam Raimi ?",
+    "options": ["Andrew Garfield", "Tom Holland", "Tobey Maguire", "Jake Gyllenhaal"],
+    "answer": "Tobey Maguire"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Gastronomie",
+    "question": "Quel est l'ingrédient principal du guacamole ?",
+    "options": ["La tomate", "L'avocat", "Le concombre", "Le poivron"],
+    "answer": "L'avocat"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Histoire",
+    "question": "En quelle année a eu lieu la Révolution française ?",
+    "options": ["1789", "1799", "1815", "1776"],
+    "answer": "1789"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Musique",
+    "question": "Quel groupe est connu pour l'album 'The Dark Side of the Moon' ?",
+    "options": ["The Beatles", "Queen", "Pink Floyd", "Led Zeppelin"],
+    "answer": "Pink Floyd"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Sciences",
+    "question": "Quel est le symbole chimique de l'or ?",
+    "options": ["Ag", "Au", "Fe", "Cu"],
+    "answer": "Au"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Sciences",
+    "question": "Quel est le plus grand mammifère du monde ?",
+    "options": ["L'éléphant d'Afrique", "La baleine bleue", "Le rorqual commun", "Le grand requin blanc"],
+    "answer": "La baleine bleue"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Géographie",
+    "question": "Quelle est la capitale du Japon ?",
+    "options": ["Kyoto", "Osaka", "Tokyo", "Hiroshima"],
+    "answer": "Tokyo"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Sport",
+    "question": "Combien de joueurs composent une équipe de football sur le terrain ?",
+    "options": ["9", "10", "11", "12"],
+    "answer": "11"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Littérature",
+    "question": "Qui a écrit 'Les Misérables' ?",
+    "options": ["Émile Zola", "Victor Hugo", "Gustave Flaubert", "Albert Camus"],
+    "answer": "Victor Hugo"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Cinéma",
+    "question": "Combien d'Oscars le film 'Titanic' a-t-il remportés ?",
+    "options": ["8", "10", "11", "14"],
+    "answer": "11"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Gastronomie",
+    "question": "De quel pays le fromage 'Feta' est-il originaire ?",
+    "options": ["Italie", "Grèce", "Espagne", "Turquie"],
+    "answer": "Grèce"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Sciences",
+    "question": "Quelle planète est la plus proche du Soleil ?",
+    "options": ["Vénus", "Mars", "Mercure", "Terre"],
+    "answer": "Mercure"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Histoire",
+    "question": "Qui était le premier président des États-Unis ?",
+    "options": ["Abraham Lincoln", "Thomas Jefferson", "George Washington", "Benjamin Franklin"],
+    "answer": "George Washington"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Inventions",
+    "question": "Qui est l'inventeur de l'ampoule électrique pratique ?",
+    "options": ["Nikola Tesla", "Thomas Edison", "Alexander Graham Bell", "Albert Einstein"],
+    "answer": "Thomas Edison"
+  },
+  {
+    "categorie_generale": "Culture Geek",
+    "sous_categorie": "Jeux Vidéo",
+    "question": "Quel est le jeu vidéo le plus vendu de tous les temps ?",
+    "options": ["Tetris", "Minecraft", "GTA V", "Super Mario Bros."],
+    "answer": "Minecraft"
+  },
+  {
+    "categorie_generale": "Culture Geek",
+    "sous_categorie": "Séries",
+    "question": "Dans 'Breaking Bad', quelle est la profession initiale de Walter White ?",
+    "options": ["Avocat", "Professeur de chimie", "Médecin", "Policier"],
+    "answer": "Professeur de chimie"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Mythologie",
+    "question": "Dans la mythologie grecque, qui est le dieu du ciel et du tonnerre ?",
+    "options": ["Poséidon", "Hadès", "Zeus", "Ares"],
+    "answer": "Zeus"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Géographie",
+    "question": "Quel fleuve traverse la ville de Londres ?",
+    "options": ["La Seine", "Le Rhin", "La Tamise", "Le Danube"],
+    "answer": "La Tamise"
+  },
+  {
+    "categorie_generale": "Culture G",
+    "sous_categorie": "Sciences",
+    "question": "Combien d'os compte le corps humain adulte ?",
+    "options": ["186", "206", "226", "246"],
+    "answer": "206"
+  }
+]
